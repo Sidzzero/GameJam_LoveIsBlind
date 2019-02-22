@@ -36,6 +36,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 224558035056942794}
+  - component: {fileID: 114948642621805472}
   m_Layer: 5
   m_Name: Item
   m_TagString: Untagged
@@ -62,7 +63,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: d311ceb1e48276a4bb66439617c3093d, type: 3}
+  m_Sprite: {fileID: 21300016, guid: cc5cd897d8407b343b8de966aa6a856a, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -70,6 +71,19 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114948642621805472
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1108834409061548}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6cc97a57491e2b34e8a31a28f4553c68, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_refAttachedImage: {fileID: 114723815429413350}
+  m_eItemType: 4
 --- !u!222 &222541603117761450
 CanvasRenderer:
   m_ObjectHideFlags: 1

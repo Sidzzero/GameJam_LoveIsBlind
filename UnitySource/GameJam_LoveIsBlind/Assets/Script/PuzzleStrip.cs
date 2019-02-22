@@ -83,5 +83,21 @@ namespace Sidz.BGameJam
             m_RightAnimator.Play("RightToLeft", 0, m_fCurrentRightStartFrame);
         }
         #endregion UI_BUTTON
+
+        public void StopStripAnim()
+        {
+            m_LeftAnimator.StopPlayback();
+            m_RightAnimator.StopPlayback();
+        }
+        public void StartStripAnim(float a_fStartTime)
+        {
+            m_LeftAnimator.Play("LeftToRight", 0, a_fStartTime);
+            m_RightAnimator.Play("RightToLeft", 0, a_fStartTime);
+        }
+        public void StartStripAnim( )
+        {
+            m_LeftAnimator.Play("LeftToRight", 0, m_fCurrentLeftStartFrame);
+            m_RightAnimator.Play("RightToLeft", 0, m_fCurrentRightStartFrame);
+        }
     }
 }
