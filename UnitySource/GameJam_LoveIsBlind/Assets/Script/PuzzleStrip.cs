@@ -38,13 +38,15 @@ namespace Sidz.BGameJam
             m_LeftAnimator.Play("LeftToRight", 0, m_fCurrentLeftStartFrame);
             m_RightAnimator.Play("RightToLeft", 0, m_fCurrentRightStartFrame);
             m_SpeedSlider.onValueChanged.AddListener(OnSpeedSliderChange);
+            m_LeftAnimator.speed = 1.0f;
+            m_RightAnimator.speed = 1.0f;
         }
 
         private void OnSpeedSliderChange(float arg0)
         {
            
-            m_LeftAnimator.speed = Mathf.Max( arg0 * const_fMinSpeed,0.45f);
-            m_RightAnimator.speed = Mathf.Max(arg0 * const_fMinSpeed, 0.45f);
+            m_LeftAnimator.speed = Mathf.Max( arg0 * const_fMinSpeed,0.15f);
+            m_RightAnimator.speed = Mathf.Max(arg0 * const_fMinSpeed, 0.15f);
             //   m_LeftAnimator.Play("LeftToRight", 0, m_fCurrentLeftStartFrame);
             // m_RightAnimator.Play("RightToLeft", 0, m_fCurrentRightStartFrame);
         }
@@ -54,26 +56,30 @@ namespace Sidz.BGameJam
         {
             m_fCurrentLeftStartFrame += const_fFrameJump;
             m_LeftAnimator.Play("LeftToRight", 0, m_fCurrentLeftStartFrame);
+            m_RightAnimator.Play("RightToLeft", 0, m_fCurrentRightStartFrame);
         }
         public void DecreaseLeftJump()
         {
             m_fCurrentLeftStartFrame -= const_fFrameJump;
 
-            m_fCurrentLeftStartFrame = Mathf.Max(0, m_fCurrentLeftStartFrame);
+        //    m_fCurrentLeftStartFrame = Mathf.Max(0, m_fCurrentLeftStartFrame);
             m_LeftAnimator.Play("LeftToRight", 0, m_fCurrentLeftStartFrame);
+            m_RightAnimator.Play("RightToLeft", 0, m_fCurrentRightStartFrame);
         }
 
 
         public void IncreaseRightJump()
         {
             m_fCurrentRightStartFrame += const_fFrameJump;
+            m_LeftAnimator.Play("LeftToRight", 0, m_fCurrentLeftStartFrame);
             m_RightAnimator.Play("RightToLeft", 0, m_fCurrentRightStartFrame);
         }
         public void DecreaseRightJump()
         {
             m_fCurrentRightStartFrame -= const_fFrameJump;
 
-            m_fCurrentRightStartFrame = Mathf.Max(0, m_fCurrentRightStartFrame);
+           // m_fCurrentRightStartFrame = Mathf.Max(0, m_fCurrentRightStartFrame);
+            m_LeftAnimator.Play("LeftToRight", 0, m_fCurrentLeftStartFrame);
             m_RightAnimator.Play("RightToLeft", 0, m_fCurrentRightStartFrame);
         }
         #endregion UI_BUTTON
