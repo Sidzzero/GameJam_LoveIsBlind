@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 namespace Sidz.BGameJam
@@ -55,7 +56,51 @@ namespace Sidz.BGameJam
         {
             m_refPuzzleStrip = GetComponent<PuzzleStrip>();
         }
+        void OnDisable()
+        {
+            if (PuzzleEventManager._Instance)
+                PuzzleEventManager._Instance.EvntOnMatchFound -= AMatchFound;
+        }
+        Coroutine m_coMatchAnim = null;
+        private void AMatchFound(PuzzleDetector a_refDetector, List<Item> m_lstItem)
+        {
+            if(a_refDetector == m_refPuzzleDetector)
+            {
+                //foreach (Item temp_items in m_refLeftItem)
+                //{
+                //    temp_items.UpdateValues(eItemType.HeartFull, m_FullHeart, false);
+                //}
+                //foreach (Item temp_items in m_refRightItem)
+                //{
+                //    temp_items.UpdateValues(eItemType.HeartFull, m_FullHeart, false);
+                //}
 
+                if (m_coMatchAnim != null)
+                {
+                    StopCoroutine(m_coMatchAnim);
+                }
+                m_coMatchAnim = StartCoroutine(coMatchAnim(m_lstItem));
+
+
+            }
+        }
+        IEnumerator coMatchAnim(List<Item> m_lstItem)
+        {
+            for (int i=0;i< m_lstItem.Count;i++)
+            {
+                //  m_refLeftItem[i].UpdateValues(eItemType.HeartFull, m_FullHeart, false);
+                m_lstItem[i].UpdateValues(eItemType.HeartFull, m_FullHeart, false);
+                m_lstItem[i].UpdateValues();
+                yield return new WaitForSeconds(0.5f);
+            }
+           
+        }
+
+        void OnEnable()
+        {
+          
+                PuzzleEventManager._Instance.EvntOnMatchFound += AMatchFound;
+        }
         // Update is called once per frame
         void Update()
         {
@@ -66,21 +111,25 @@ namespace Sidz.BGameJam
         }
         public void CreateBasicPuzzle(SO_PuzzleLevel a_mLevelSettings)
         {
+            if (m_coMatchAnim != null)
+            {
+                StopCoroutine(m_coMatchAnim);
+            }
             ClearPuzzle();
             //stop the playing strip
             m_refPuzzleStrip.StopStripAnim();
             //Spawn everything
             //Chose a Random puzzle 
-            int temp_iRandomHeartPuzzle = Random.Range(0, m_lstHeartType.Count);
+            int temp_iRandomHeartPuzzle = UnityEngine.Random.Range(0, m_lstHeartType.Count);
             Sprite m_refLeftSprite = m_lstHeartType[temp_iRandomHeartPuzzle].m_refLeftSide;
             Sprite m_refRightSprite = m_lstHeartType[temp_iRandomHeartPuzzle].m_refRightSide;
 
             //Logic is if left is chose as X from 1-4 then on Right 4-x postion shouldnt be chosen!
-            int temp_iPosInLeftStrip = Random.Range(0, 4);
+            int temp_iPosInLeftStrip = UnityEngine.Random.Range(0, 4);
             int temp_iPosInRightStrip = 3 - temp_iPosInLeftStrip;//***3 that 
             do
             {
-                temp_iPosInRightStrip = Random.Range(0, 4);//Oh dear Lord
+                temp_iPosInRightStrip = UnityEngine.Random.Range(0, 4);//Oh dear Lord
             } while (temp_iPosInRightStrip == (3 - temp_iPosInLeftStrip));
             Debug.LogError("LeftIndex:" + temp_iPosInLeftStrip + ",RightIndex:" + temp_iPosInRightStrip);
             //Chose the item at this index
@@ -101,7 +150,7 @@ namespace Sidz.BGameJam
 
                 temp_OtherHeart.Remove(m_lstHeartType[temp_iRandomHeartPuzzle]);
 
-                bool temp_bUseLeftHearts = Random.Range(1, 6) % 2 == 0 ? true : false;
+                bool temp_bUseLeftHearts = UnityEngine.Random.Range(1, 6) % 2 == 0 ? true : false;
                 eItemType temp_eItem = temp_bUseLeftHearts ? eItemType.HeartLeft : eItemType.HeartRight;
                 Sprite temp_Sprite = null;
                 int temp_randomNumber = 0;
@@ -109,11 +158,11 @@ namespace Sidz.BGameJam
                 
                 for (int i=0;i< temp_OtherLeftItems.Count; i++ )
                 {
-                    temp_bUseLeftHearts = Random.Range(1, 6) % 2 == 0 ? true : false;
+                    temp_bUseLeftHearts = UnityEngine.Random.Range(1, 6) % 2 == 0 ? true : false;
                     temp_eItem = temp_bUseLeftHearts ? eItemType.HeartLeft : eItemType.HeartRight;
 
 
-                    temp_randomNumber = Random.Range(0, temp_OtherHeart.Count);
+                    temp_randomNumber = UnityEngine.Random.Range(0, temp_OtherHeart.Count);
                     temp_Sprite = temp_bUseLeftHearts ? temp_OtherHeart[temp_randomNumber].m_refLeftSide:temp_OtherHeart[temp_randomNumber].m_refRightSide;
                     temp_OtherLeftItems[i].UpdateValues(temp_eItem, temp_Sprite, false);
                     temp_iOtherAddCount++;
@@ -128,10 +177,10 @@ namespace Sidz.BGameJam
                 temp_iOtherAddCount = 0;
                 for (int i= 0; i < temp_OtherRightItems.Count; i++)
                 {
-                    temp_bUseLeftHearts = Random.Range(1, 6) % 2 == 0 ? true : false;
+                    temp_bUseLeftHearts = UnityEngine.Random.Range(1, 6) % 2 == 0 ? true : false;
                     temp_eItem = temp_bUseLeftHearts ? eItemType.HeartLeft : eItemType.HeartRight;
 
-                    temp_randomNumber = Random.Range(0, temp_OtherHeart.Count);
+                    temp_randomNumber = UnityEngine.Random.Range(0, temp_OtherHeart.Count);
                     temp_Sprite = temp_bUseLeftHearts ? temp_OtherHeart[temp_randomNumber].m_refLeftSide : temp_OtherHeart[temp_randomNumber].m_refRightSide;
                     temp_OtherRightItems[i].UpdateValues(temp_eItem, temp_Sprite, false);
                     temp_iOtherAddCount++;
@@ -150,21 +199,25 @@ namespace Sidz.BGameJam
         [ContextMenu("Create Puzzle")]
         public void CreateBasicPuzzle()
         {
+            if (m_coMatchAnim != null)
+            {
+                StopCoroutine(m_coMatchAnim);
+            }
             ClearPuzzle();
             //stop the playing strip
             m_refPuzzleStrip.StopStripAnim();
             //Spawn everything
             //Chose a Random puzzle 
-            int temp_iRandomHeartPuzzle = Random.Range(0, m_lstHeartType.Count);
+            int temp_iRandomHeartPuzzle = UnityEngine.Random.Range(0, m_lstHeartType.Count);
             Sprite m_refLeftSprite = m_lstHeartType[temp_iRandomHeartPuzzle].m_refLeftSide;
             Sprite m_refRightSprite = m_lstHeartType[temp_iRandomHeartPuzzle].m_refRightSide;
 
             //Logic is if left is chose as X from 1-4 then on Right 4-x postion shouldnt be chosen!
-            int temp_iPosInLeftStrip = Random.Range(0,4);
+            int temp_iPosInLeftStrip = UnityEngine.Random.Range(0,4);
             int temp_iPosInRightStrip = 3 - temp_iPosInLeftStrip;//***3 that 
             do
             {
-                temp_iPosInRightStrip = Random.Range(0,4);//Oh dear Lord
+                temp_iPosInRightStrip = UnityEngine.Random.Range(0,4);//Oh dear Lord
             } while (temp_iPosInRightStrip == (3 - temp_iPosInLeftStrip) );
             Debug.LogError("LeftIndex:"+ temp_iPosInLeftStrip+",RightIndex:"+ temp_iPosInRightStrip);
             //Chose the item at this index
@@ -194,7 +247,7 @@ namespace Sidz.BGameJam
 
         public void StopAllStripPuzzleMovement(float a_stripSpeed)
         {
-            m_refPuzzleStrip.StopStripAnim(a_stripSpeed);
+            m_refPuzzleStrip.StopStripAnim(0.01f);
         }
     }
 }

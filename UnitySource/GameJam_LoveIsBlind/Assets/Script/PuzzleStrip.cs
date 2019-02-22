@@ -96,6 +96,13 @@ namespace Sidz.BGameJam
             m_LeftAnimator.speed = a_fSpeed;
             m_RightAnimator.speed = a_fSpeed;
         }
+
+        public void PlayMatchStripAnim()
+        {
+
+            m_LeftAnimator.SetTrigger("Trigger_MatchLeft");
+            m_RightAnimator.SetTrigger("Trigger_MatchRight");
+        }
         public void StartStripAnim(float a_fStartTime)
         {
             m_LeftAnimator.speed = 1.0f;

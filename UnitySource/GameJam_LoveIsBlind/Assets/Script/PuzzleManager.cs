@@ -60,7 +60,7 @@ namespace Sidz.BGameJam
                 if (temp_puzzleCreators._PuzzleDetector == a_refDetector)
                 {
                     m_iCompletedSpawner++;
-                    temp_puzzleCreators.StopAllStripPuzzleMovement(0.07f);
+                    temp_puzzleCreators.StopAllStripPuzzleMovement(0.0f);
                 }
             }
             if(m_iCompletedSpawner >= m_refPuzzleSpawnmers.Count)
@@ -120,6 +120,7 @@ namespace Sidz.BGameJam
                 return;
             }
 
+            m_iCompletedSpawner = 0; 
             foreach (PuzzleCreator temp_puzzleCreators in m_refPuzzleSpawnmers)
             {
                 temp_puzzleCreators._PuzzleDetector.PlayIdle();

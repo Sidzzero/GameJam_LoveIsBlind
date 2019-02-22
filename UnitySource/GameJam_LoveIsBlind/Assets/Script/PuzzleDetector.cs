@@ -51,6 +51,7 @@ namespace Sidz.BGameJam
         private void CallBack_PuzzleRoundStarted(int a_iCurrentLevel, int a_iCurrentRound)
         {
             Debug.Log("New Round Started,clearing :CurrentLEvel:"+ a_iCurrentLevel+",Round:"+ a_iCurrentRound);
+            _DetectionEnabled = true;
             m_lstCollidedItem.Clear();
         }
 
@@ -65,15 +66,22 @@ namespace Sidz.BGameJam
         public void PlayIdle()
         {
             m_refAttachedAnimator.SetTrigger("Trigger_Idle");
+        
         }
         private void UpdateMatchList(Item a_refItem)
         {
+            if(_DetectionEnabled == false)
+            {
+                Debug.LogError("Dection Disabled...");
+                return;
+            }
             m_lstCollidedItem.Add(a_refItem);
             if(m_lstCollidedItem.Count>=2)
             {
                 m_refAttachedAnimator.SetTrigger("Trigger_MatchFound");
                 PuzzleEventManager._Instance.Fire_EvntOnMatchFound(this,m_lstCollidedItem);
                 Debug.Log("Match Found");
+                _DetectionEnabled = false;
             }
         }
         #endregion EVENT_HOOKUP
