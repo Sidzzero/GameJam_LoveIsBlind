@@ -76,6 +76,10 @@ namespace Sidz.BGameJam
             m_refAttaachedCollider.enabled = a_bIsTriggerEnabled;
 
         }
+        public bool CheckEquals(Item a_refOtherItem)
+        {
+            return (this.name == a_refOtherItem.name && a_refOtherItem.m_eItemType == this.m_eItemType);
+        }
 
         ///Randomise between 0 or 1 digit
         public void UpdateValues()

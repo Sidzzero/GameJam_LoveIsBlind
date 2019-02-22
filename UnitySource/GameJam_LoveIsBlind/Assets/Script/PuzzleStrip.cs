@@ -90,6 +90,12 @@ namespace Sidz.BGameJam
             m_LeftAnimator.speed = 0.0f;
             m_RightAnimator.speed = 0.0f;
         }
+        public void StopStripAnim(float a_fSpeed)
+        {
+
+            m_LeftAnimator.speed = a_fSpeed;
+            m_RightAnimator.speed = a_fSpeed;
+        }
         public void StartStripAnim(float a_fStartTime)
         {
             m_LeftAnimator.speed = 1.0f;
