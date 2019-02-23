@@ -117,6 +117,11 @@ namespace Sidz.BGameJam
             }
             ClearPuzzle();
             //stop the playing strip
+
+            if (m_refPuzzleStrip ==null)
+            {
+                m_refPuzzleStrip = GetComponent<PuzzleStrip>();
+            }
             m_refPuzzleStrip.StopStripAnim();
             //Spawn everything
             //Chose a Random puzzle 

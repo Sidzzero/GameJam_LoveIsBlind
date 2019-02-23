@@ -16,7 +16,7 @@ namespace Sidz.BGameJam
     }
     public class Item : MonoBehaviour
     {
-       
+
 
         [Header("Setting:References")]
         [SerializeField] private Image m_refAttachedImage;
@@ -36,7 +36,7 @@ namespace Sidz.BGameJam
                 return m_refAttachedImage;
             }
 
-           
+
         }
 
         public eItemType _ItemType
@@ -73,6 +73,10 @@ namespace Sidz.BGameJam
         {
             _ItemType = a_eItemType;
             m_refAttachedImage.sprite = m_refSprite;
+            if (m_refAttaachedCollider == null)
+            {
+                m_refAttaachedCollider = GetComponent<Collider>();
+            }
             m_refAttaachedCollider.enabled = a_bIsTriggerEnabled;
 
         }
@@ -84,12 +88,12 @@ namespace Sidz.BGameJam
         ///Randomise between 0 or 1 digit
         public void UpdateValues()
         {
-           if (UnityEngine.Random.Range(0, 8) %2 ==0)
+            if (UnityEngine.Random.Range(0, 8) % 2 == 0)
             {
-             
+
                 UpdateValues(eItemType.Digit1, m_Digitt1, false);
             }
-           else
+            else
             {
                 UpdateValues(eItemType.Digit0, m_Digitt0, false);
             }

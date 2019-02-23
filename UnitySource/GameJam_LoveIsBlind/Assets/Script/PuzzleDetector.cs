@@ -65,6 +65,7 @@ namespace Sidz.BGameJam
 
         public void PlayIdle()
         {
+            m_refAttachedAnimator = GetComponent<Animator>();
             m_refAttachedAnimator.SetTrigger("Trigger_Idle");
         
         }
