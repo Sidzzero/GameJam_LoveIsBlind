@@ -235,7 +235,7 @@ namespace Sidz.BGameJam
             m_refPuzzleStrip.StartStripAnim(0);
         }
 
-        private void ClearPuzzle()
+        public void ClearPuzzle()
         {
             foreach(Item temp_items in m_refLeftItem)
             {
@@ -254,5 +254,7 @@ namespace Sidz.BGameJam
         {
             m_refPuzzleStrip.StopStripAnim(0.01f);
         }
+
+     
     }
 }

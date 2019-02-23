@@ -7,7 +7,7 @@ namespace Sidz.BGameJam
 {
     public class PuzzleDetector : MonoBehaviour
     {
-        [SerializeField] private List<Item> m_lstCollidedItem;
+        [SerializeField] public List<Item> m_lstCollidedItem;
         [SerializeField] private bool bDetectionEnabled = true;
 
 

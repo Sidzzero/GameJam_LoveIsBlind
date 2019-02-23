@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,6 +8,7 @@ namespace Sidz.BGameJam
     public class PuzzleGameManager : MonoBehaviour
     {
         [SerializeField] private GameObject m_refStoryBoard;
+        [SerializeField] private GameObject m_refReport;
         [SerializeField] private TMPro.TextMeshProUGUI m_Timer;
         public float m_timer  = 180;
 
@@ -16,6 +18,9 @@ namespace Sidz.BGameJam
 
         [SerializeField] private PuzzleManager m_refPuzzleManager;
 
+
+        private bool m_bFirstTime = true;
+
         private Coroutine timerCoroutine = null;
         private Color m_textColor;
         // Use this for initialization
@@ -24,7 +29,21 @@ namespace Sidz.BGameJam
             GameSceneContent.SetActive(false);
             m_RefKEyBoard.enabled = false;
             m_textColor = m_Timer.color;
+
+            PuzzleEventManager._Instance.EvntOnTimerComplete += TimerComplete;
         }
+        void OnDisable()
+        {
+            if(PuzzleEventManager._Instance.EvntOnTimerComplete !=null)
+            PuzzleEventManager._Instance.EvntOnTimerComplete -= TimerComplete;
+        }
+
+        private void TimerComplete()
+        {
+            LogOut();
+            m_refReport.SetActive(true);
+        }
+
 
         // Update is called once per frame
         void Update()
@@ -34,12 +53,22 @@ namespace Sidz.BGameJam
 
         public void Login()
         {
+            if(m_bFirstTime == false)
+            {
+                UnityEngine.SceneManagement.SceneManager.LoadScene("GameScene");
+                return;
+            }
+
+            m_bFirstTime = false;
             GameSceneContent.SetActive(true);
             m_refStoryBoard.SetActive(false);
             m_refPuzzleManager.NextLevel();
+            m_refPuzzleManager.LevelCrossed = 0;
+            m_refPuzzleManager.Reset();
             m_RefKEyBoard.enabled = true;
             StartTimer();
             m_Timer.color = m_textColor;
+            m_refReport.SetActive(false);
         }
         public void LogOut()
         {
@@ -47,6 +76,13 @@ namespace Sidz.BGameJam
             m_RefKEyBoard.enabled = false;
             StopTimer();
             m_Timer.color = m_textColor;
+           
+        }
+
+        public void ExitOffice()
+        {
+            LogOut();
+            UnityEngine.SceneManagement.SceneManager.LoadScene("IntroScene");
         }
         private void StartTimer()
         {
@@ -96,6 +132,8 @@ namespace Sidz.BGameJam
                 yield return new WaitForEndOfFrame();
             }
             m_Timer.color = Color.red;
+
+            PuzzleEventManager._Instance.Fire_EvntOnTimerComplete();
 
         }
         private string temp_strDisplayTime = "";

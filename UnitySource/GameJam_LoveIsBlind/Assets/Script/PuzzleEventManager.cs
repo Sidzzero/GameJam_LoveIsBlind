@@ -44,6 +44,17 @@ namespace Sidz.BGameJam
 
         }
 
+        public delegate void OnTimerComplete();
+        public OnTimerComplete EvntOnTimerComplete;
+        public void Fire_EvntOnTimerComplete()
+        {
+            if (EvntOnTimerComplete != null)
+            {
+                EvntOnTimerComplete();
+            }
+        }
+
+
 
         public delegate void OnPuzzleRoundStarted(int a_iCurrentLevel,int a_iCurrentRound);
         public OnPuzzleRoundStarted EvntOnPuzzleRoundStarted;

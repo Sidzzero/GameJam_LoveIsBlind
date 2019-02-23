@@ -65,6 +65,7 @@
     <Compile Include="Assets\Script\Item.cs" />
     <Compile Include="Assets\Script\PuzzleCreator.cs" />
     <Compile Include="Assets\Script\PuzzleDetector.cs" />
+    <Compile Include="Assets\Script\PuzzleEmployeReport.cs" />
     <Compile Include="Assets\Script\PuzzleEventManager.cs" />
     <Compile Include="Assets\Script\PuzzleGameManager.cs" />
     <Compile Include="Assets\Script\PuzzleMainScreen.cs" />

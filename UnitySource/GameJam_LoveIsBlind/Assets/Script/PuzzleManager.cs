@@ -26,6 +26,8 @@ namespace Sidz.BGameJam
         [SerializeField] private List<PuzzleCreator> m_refPuzzleSpawnmers;
         [SerializeField] private List<Level> m_GameLevels;
 
+        public int LevelCrossed = 0;
+
         // Use this for initialization
         void Start()
         {
@@ -39,12 +41,16 @@ namespace Sidz.BGameJam
             m_iCompletedSpawner = 0;
             PuzzleEventManager._Instance.EvntOnMatchFound += AMatchFound;
         }
-        private void Reset()
+        public void Reset()
         {
             m_iCurrentLevel = 0;
             m_iCurrentLevelRound = 0;
             m_iCompletedSpawner = 0;
-
+            foreach (PuzzleCreator temp_puzzleCreators in m_refPuzzleSpawnmers)
+            {
+                temp_puzzleCreators._PuzzleDetector._DetectionEnabled = true;
+                temp_puzzleCreators._PuzzleDetector.m_lstCollidedItem.Clear();
+            }
         }
         void OnDisable()
         {
@@ -66,6 +72,7 @@ namespace Sidz.BGameJam
             if(m_iCompletedSpawner >= m_refPuzzleSpawnmers.Count)
             {
                 Debug.LogError("Go to Next Level...");
+                LevelCrossed ++;
                 StartCoroutine(coTimer());
                
             }
@@ -108,6 +115,7 @@ namespace Sidz.BGameJam
                 Debug.LogError("Current Level Complete as rounds are over...!" + m_iCurrentLevel);
                 m_iCompletedSpawner = 0;
                 m_iCurrentLevel++;
+           
             }
             else
             {
@@ -127,8 +135,19 @@ namespace Sidz.BGameJam
                 temp_puzzleCreators.CreateBasicPuzzle(m_GameLevels[m_iCurrentLevel].m_refSettingsToUse);
             }
             PuzzleEventManager._Instance.Fire_EvntOnPuzzleRoundStarted(m_iCurrentLevel, m_GameLevels[m_iCurrentLevel].m_iNumberOfRounds);
+        }
 
-
+        public void StartedGameTimer()
+        {
+           
+        }
+        public void StoppedGameTimer()
+        {
+            foreach (PuzzleCreator temp_puzzleCreators in m_refPuzzleSpawnmers)
+            {
+                temp_puzzleCreators._PuzzleDetector.PlayIdle();
+                temp_puzzleCreators.ClearPuzzle();
+            }
         }
 
     }

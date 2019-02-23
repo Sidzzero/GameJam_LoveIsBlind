@@ -64,7 +64,7 @@ namespace TMPro.Examples
 
                 if (visibleCount > totalVisibleCharacters)
                 {
-                    yield return new WaitForSeconds(25.0f);
+                    yield return new WaitForSeconds(65.0f);
                     visibleCount = 0;
                 }
 
